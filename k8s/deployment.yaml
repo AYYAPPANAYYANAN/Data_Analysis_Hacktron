@@ -1,0 +1,55 @@
+# k8s/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olist-inference-api
+  labels:
+    app: olist-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: olist-inference
+  template:
+    metadata:
+      labels:
+        app: olist-inference
+    spec:
+      containers:
+      - name: api
+        image: olist-logistics-mlops:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: olist-inference-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: olist-inference
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000

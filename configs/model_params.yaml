@@ -1,0 +1,23 @@
+# configs/model_params.yaml
+model:
+  name: "RandomForestClassifier"
+  hyperparameters:
+    n_estimators: 150
+    class_weight: "balanced_subsample"
+    random_state: 42
+
+preprocessing:
+  train_years: [2016, 2017]
+  test_year: 2018
+  outlier_quantiles: [0.01, 0.99]
+
+optimization:
+  cost_matrix:
+    false_negative_cost: 5
+    false_positive_cost: 1
+  clustering:
+    n_clusters: 3
+    random_state: 42
+  capex:
+    hub_capex_brl: 1500000.0
+    gmv_protection_ratio: 0.08
