@@ -149,22 +149,32 @@ weighted avg       0.78      0.85      0.80      4000
 -> All executive charts successfully generated and saved to 'data/processed/'
 
 ======================================================================
+
 MODULAR REPOSITORY EXECUTION & VISUALIZATION COMPLETED SUCCESSFULLY.
+
 ======================================================================
 
 === Step 2: Launching FastAPI Real-Time Inference Server ===
 INFO:     Will watch for changes in these directories: ['C:\\Users\\Ayyappan\\Desktop\\1']
+
 INFO:     Uvicorn running on [http://127.0.0.1:8000](http://127.0.0.1:8000) (Press CTRL+C to quit)
+
 INFO:     Started reloader process [3276] using WatchFiles
+
 INFO:     Started server process [14364]
+
 INFO:     Waiting for application startup.
+
 INFO:     Application startup complete.
+
 🌐 Access Live API & Documentation
+
 API Root Endpoint: http://127.0.0.1:8000
 
 Interactive Swagger UI: http://127.0.0.1:8000/docs
 
 🐳 Docker & Container Deployment
+
 To run the complete platform services via Docker Compose:
 
 Bash
