@@ -1,24 +1,38 @@
-### Enterprise-Grade Olist MLOps & Analytics Platform
-A production-ready, end-to-end MLOps pipeline and advanced analytics platform built for the Olist Brazilian E-commerce dataset (100,000+ orders). This repository bridges exploratory data analysis with enterprise-grade systems architecture, featuring leakage-proof feature stores, cost-sensitive machine learning, real-time FastAPI serving, asynchronous Celery workers, Airflow pipeline orchestration, and automated CI/CD workflows via GitHub Actions.
+# 🚀 Enterprise-Grade Olist MLOps & Analytics Platform
 
-Architecture & Tech Stack
-Core Language: Python 3.13
+<p align="center">
+  <b>A production-ready, end-to-end MLOps pipeline and advanced analytics platform built for the Olist Brazilian E-commerce dataset (100k+ orders).</b>
+</p>
 
-API & Serving: FastAPI, Uvicorn
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.13-blue?style=for-the-badge&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/FastAPI-0.110+-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
+  <img src="https://img.shields.io/badge/Apache_Airflow-Orchestration-017CEE?style=for-the-badge&logo=apache-airflow" alt="Airflow">
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker" alt="Docker">
+  <img src="https://img.shields.io/badge/Kubernetes-Clusters-326CE5?style=for-the-badge&logo=kubernetes" alt="Kubernetes">
+  <img src="https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions" alt="GitHub Actions">
+</p>
 
-Orchestration: Apache Airflow (olist_pipeline_dag.py)
+---
 
-Background Tasks: Celery + Redis
+## 🏗️ Architecture & Tech Stack
 
-Containerization: Docker, Docker Compose, Kubernetes (k8s/deployment.yaml)
+| Component | Technology / Framework |
+| :--- | :--- |
+| **Core Language** | Python 3.13 |
+| **API & Real-Time Serving** | FastAPI, Uvicorn |
+| **Workflow Orchestration** | Apache Airflow (`olist_pipeline_dag.py`) |
+| **Asynchronous Background Tasks** | Celery + Redis |
+| **Containerization & Deployment** | Docker, Docker Compose, Kubernetes (`k8s/deployment.yaml`) |
+| **CI/CD Automation** | GitHub Actions (`.github/workflows/`) |
+| **Testing & Quality Assurance** | Pytest (Strict data leakage verification) |
+| **Data Science Stack** | Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn |
 
-CI/CD Automation: GitHub Actions (.github/workflows/)
+--
 
-Testing & Quality Assurance: Pytest (rigorous data leakage verification)
+## 📂 Project Directory Structure
 
-Data Science & Modeling: Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn
-
-### Project Directory Structure
+``text
 ├── .github/workflows/
 │   ├── ci.yml                 # Automated testing and leakage verification CI pipeline
 │   └── deploy.yml             # Container build and registry deployment workflow
@@ -50,14 +64,14 @@ Data Science & Modeling: Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn
 ├── docker-compose.yml         # Multi-container orchestration setup
 └── requirements.txt           # Project dependencies
 
-### Key Features & Engineering Highlights
-Leakage-Proof Feature Engineering (src/features.py): Built with strict temporal separation to prevent target leakage during feature generation, validated automatically via tests/test_leakage.py.
+⚡ Key Features & Engineering Highlights
+🔒 Leakage-Proof Feature Engineering (src/features.py): Built with strict temporal separation to prevent target leakage during feature generation, validated automatically via tests/test_leakage.py.
 
-Asymmetric Cost-Sensitive Modeling (src/modeling.py): Optimizes decision thresholds dynamically (e.g., threshold set at 0.2867) to heavily penalize False Negatives (missed logistics delays) over False Positives, protecting customer satisfaction.
+⚖️ Asymmetric Cost-Sensitive Modeling (src/modeling.py): Optimizes decision thresholds dynamically (e.g., threshold set at 0.2867) to heavily penalize False Negatives (missed logistics delays) over False Positives, protecting customer satisfaction.
 
-Financial & CapEx Validation (src/optimization.py): Directly maps model predictions to business metrics, computing hub setup costs against projected annual GMV protection.
+💰 Financial & CapEx Validation (src/optimization.py): Directly maps model predictions to business metrics, computing hub setup costs against projected annual GMV protection.
 
-Automated CI/CD Pipelines: Validates code health, runs automated Pytest leakage tests, and pushes container artifacts to registries on every merge to main.
+🔄 Automated CI/CD Pipelines: Validates code health, runs automated Pytest leakage tests, and pushes container artifacts to registries on every merge to main.
 
 ### Quick Start & Local Execution
 1. Install Dependencies
