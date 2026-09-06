@@ -37,47 +37,63 @@
 ├── .github/
 
 │   └── workflows/
-
+|       |
 │       ├── ci.yml                 # Automated testing and leakage verification CI pipeline
-
+|       |
 │       └── deploy.yml             # Container build and registry deployment workflow
-
+|       |
 ├── configs/
-
+|   | 
 │   └── model_params.yaml          # Hyperparameters and threshold configurations
-
+|
 ├── dags/
-
+|   |
 │   └── olist_pipeline_dag.py      # Airflow orchestration DAG for batch pipelines
-
+|  
 ├── data/
-
+|   |
 │   ├── processed/                 # Serialized model artifacts, features, and executive charts
-
+|   |
 │   └── raw/                       # Olist source CSV datasets
-
+|   |
 ├── k8s/
-
+|   |
 │   └── deployment.yaml            # Production Kubernetes cluster deployment manifests
-
+|
 ├── monitoring/
-
+|   |
 │   └── drift_monitor.py           # Data and concept drift detection system
+|
 ├── src/
+|   |
 │   ├── __init__.py
+|   |
 │   ├── celery_app.py              # Asynchronous task worker configurations
+|   |
 │   ├── features.py                # Leakage-proof feature engineering pipeline
+|   |
 │   ├── ingestion.py               # Data loading, cleaning, and survivorship audits
+|   |
 │   ├── modeling.py                # Asymmetric cost-sensitive model training
+|   |
 │   ├── optimization.py            # CapEx financial optimization and hub placement
+|   |
 │   └── visualization.py           # Executive chart generation engine
+|
 ├── tests/
+|
 │   └── test_leakage.py            # Pytest suite for strict data leakage checks
+|
 ├── app.py                         # FastAPI real-time inference server
+|
 ├── main.py                        # End-to-end local MLOps execution pipeline
+|
 ├── run_system.py                  # Single-prompt execution wrapper for the full system
+|
 ├── Dockerfile                     # Production container build instructions
+|
 ├── docker-compose.yml             # Multi-container orchestration setup
+| 
 └── requirements.txt               # Project dependencies
 ⚡ Key Features & Engineering Highlights
 🔒 Leakage-Proof Feature Engineering (src/features.py): Built with strict temporal separation to prevent target leakage during feature generation, validated automatically via tests/test_leakage.py.
