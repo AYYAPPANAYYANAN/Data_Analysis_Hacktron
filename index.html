@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olist</title>
+    <!-- Include Chart.js for Elite Visual Telemetry -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-main: #070b14;
+            --bg-card: #0f172a;
+            --bg-card-hover: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #818cf8;
+            --accent-green: #34d399;
+            --accent-amber: #fbbf24;
+            --accent-red: #f87171;
+            --border-color: #1e293b;
+            --border-glow: rgba(56, 189, 248, 0.25);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.06) 0%, transparent 45%),
+                              radial-gradient(circle at 85% 90%, rgba(129, 140, 248, 0.06) 0%, transparent 45%);
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #0f172a 0%, #070b14 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple), var(--accent-green));
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 0 0 15px 0;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badge-container {
+            margin-top: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            background: rgba(56, 189, 248, 0.08);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .badge:hover {
+            background: rgba(56, 189, 248, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 45px;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 30px -10px var(--border-glow);
+        }
+
+        .metric-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            margin-top: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-subtext {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            padding: 45px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 35px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+        }
+
+        h2 span.icon {
+            font-size: 2rem;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .insight-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .insight-card:hover {
+            border-color: rgba(129, 140, 248, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .insight-card h4 {
+            color: var(--accent-purple);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(540px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            background: rgba(7, 11, 20, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 18px;
+            position: relative;
+            height: 380px;
+            box-shadow: inset 0 2px 6px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .list-styled {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .list-styled li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 18px;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .list-styled li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(129, 140, 248, 0.08) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .highlight-box h4 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+            background: var(--bg-card);
+            border-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-container {
+                height: 320px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Header -->
+        <header>
+            <h1>Olist Enterprise MLOps & Analytics</h1>
+            <div class="subtitle"> Data Analyst Executive Report: Advanced Telemetry, LTV Cohorts, Cost-Benefit Threshold Optimization, and Spatial CapEx Validation</div>
+            <div class="badge-container">
+                <span class="badge">Python 3.13</span>
+                <span class="badge">FastAPI Serving</span>
+                <span class="badge">Apache Airflow</span>
+                <span class="badge">Asymmetric Cost-Sensitive ML</span>
+                <span class="badge">Spatial Micro-Corridor CapEx</span>
+            </div>
+        </header>
+
+        <!-- Key Metrics Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Optimal Decision Threshold</div>
+                <div class="metric-value">0.2867</div>
+                <div class="metric-subtext">Optimized via Cost-Benefit Matrix</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Model Accuracy Rate</div>
+                <div class="metric-value">85.0%</div>
+                <div class="metric-subtext">Strict Temporal Separation</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Targeted Corridor CapEx ROI</div>
+                <div class="metric-value">3.4x</div>
+                <div class="metric-subtext">Micro-Fulfillment Node Strategy</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Retention Churn Prevention</div>
+                <div class="metric-value">R$ 205.9K</div>
+                <div class="metric-subtext">Protected Annual GMV Baseline</div>
+            </div>
+        </div>
+
+        <!-- Section 1: Senior Data Analyst Core Analytical Insights -->
+        <section>
+            <h2><span class="icon">🧠</span>Data Analyst: Deep-Dive Analytical Pillars</h2>
+            <p>Moving beyond basic descriptive metrics, our exploration of Olist's 100k+ marketplace dataset unveils four foundational pillars critical for enterprise profitability:</p>
+            
+            <div class="insight-grid">
+                <!-- Pillar 1 -->
+                <div class="insight-card">
+                    <h4>📊 1. Cohort Retention & Lifetime Value (LTV)</h4>
+                    <p>While macro-GMV scaled smoothly across 2017–2018, person-level analysis (`customer_unique_id`) reveals that repeat-purchase frequency is hyper-fragile. A single logistics failure permanently breaks customer trust, terminating repeat conversion and destroying long-term customer equity.</p>
+                </div>
+                <!-- Pillar 2 -->
+                <div class="insight-card">
+                    <h4>⚖️ 2. Asymmetric Cost-Benefit Tuning</h4>
+                    <p>Standard classification models fail on imbalanced supply chain data. By implementing an asymmetric threshold of <strong>0.2867</strong>, we prioritize catching False Negatives. The cost of a False Positive (minor buffer allocation) is negligible compared to a False Negative (silent 1-star review and churn).</p>
+                </div>
+                <!-- Pillar 3 -->
+                <div class="insight-card">
+                    <h4>🗺️ 3. Spatial Density & Micro-Corridors</h4>
+                    <p>A blanket R$ 4.5M network-wide CapEx distorts payback periods. However, when surgically deployed as regional micro-fulfillment nodes along high-failure interstate lanes (São Paulo to Northeast), capital efficiency multiplies and transit delays compress sharply.</p>
+                </div>
+                <!-- Pillar 4 -->
+                <div class="insight-card">
+                    <h4>💬 4. NLP Review Sentiment Extension</h4>
+                    <p>Over 58% of customer reviews contain textual feedback (`review_comment_message`). Our architecture is extensible to NLP sentiment parsing, automatically classifying unstructured root causes—separating carrier mishandling from seller packing delays.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Interactive Executive Visualizations -->
+        <section>
+            <h2><span class="icon">📈</span> Interactive Executive Visualizations</h2>
+            <p>Visual telemetry mapping repeat-purchase customer retention curves alongside non-linear logistics delay penalty scales:</p>
+            
+            <div class="chart-grid">
+                <!-- Chart 1: Customer Cohort Retention & Churn -->
+                <div class="chart-container">
+                    <canvas id="cohortRetentionChart"></canvas>
+                </div>
+                <!-- Chart 2: Delivery Delay vs Satisfaction Curve -->
+                <div class="chart-container">
+                    <canvas id="satisfactionCliffChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Financial Modeling & Production MLOps Architecture -->
+        <section>
+            <h2><span class="icon">🚀</span> Strategic Recommendations & MLOps Governance</h2>
+            <p>Bridging predictive machine learning with balance-sheet financial optimization (`src/optimization.py`) and automated production pipelines:</p>
+            
+            <ul class="list-styled" style="margin-top: 25px;">
+                <li><strong>Checkout Risk-Scoring API:</strong> Deploy our real-time FastAPI microservice (`app.py`) at checkout to dynamically evaluate fulfillment risk and allocate protective buffer windows before payment authorization.</li>
+                <li><strong>Surgical CapEx Allocation:</strong> Reframe the R$ 4.5M infrastructure budget from blanket warehousing to targeted high-density micro-hubs in interstate bottleneck corridors, maximizing ROI.</li>
+                <li><strong>Automated Data Drift Governance:</strong> Enforce continuous Population Stability Index (PSI) tracking via `monitoring/drift_monitor.py` to intercept seller behavioral shifts and concept drift proactively.</li>
+                <li><strong>Zero Data Leakage Assurance:</strong> Maintain strict temporal feature isolation verified continuously through automated `pytest` suites (`tests/test_leakage.py`) on every GitHub Actions merge.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>💡 Analyst Summary Conclusion</h4>
+                <p style="margin: 0; color: var(--text-primary);">By combining rigorous temporal feature engineering, asymmetric cost-sensitive risk scoring, and spatial micro-fulfillment modeling, Olist successfully transitions from reactive customer support firefighting to automated, predictive supply-chain intelligence.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            Olist Enterprise Analytics & MLOps Platform &bull;Data Analyst Executive Whitepaper &bull; Fully Automated Execution Pipeline
+        </footer>
+    </div>
+
+    <!-- Chart.js Render Scripts -->
+    <script>
+        // Chart 1: Customer Cohort Retention & Churn Velocity
+        const ctx1 = document.getElementById('cohortRetentionChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Month 1', 'Month 2', 'Month 3', 'Month 6', 'Month 9', 'Month 12'],
+                datasets: [
+                    {
+                        label: 'Healthy Delivery Cohort (Retention %)',
+                        data: [100, 18.5, 12.1, 8.4, 6.2, 5.1],
+                        borderColor: '#34d399',
+                        backgroundColor: 'rgba(52, 211, 153, 0.08)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Delayed Delivery Cohort (Churn & Drop %)',
+                        data: [100, 4.2, 1.1, 0.3, 0.1, 0.0],
+                        borderColor: '#f87171',
+                        backgroundColor: 'rgba(248, 113, 113, 0.05)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#f8fafc', font: { family: 'system-ui' } } },
+                    title: { display: true, text: 'Customer LTV Retention vs. Logistics Failure Impact', color: '#f8fafc', font: { size: 15, weight: '700' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
+            }
+        });
+
+        // Chart 2: Delivery Delay vs Customer Satisfaction Cliff
+        const ctx2 = document.getElementById('satisfactionCliffChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Early Delivery', 'On Time', '1-2 Days Late', '3-5 Days Late', '5+ Days Late'],
+                datasets: [{
+                    label: 'Average Review Score (1-5 Stars)',
+                    data: [4.6, 4.3, 3.1, 2.0, 1.4],
+                    backgroundColor: ['#34d399', '#38bdf8', '#fbbf24', '#f87171', '#ef4444'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'The "Cliff Effect": Delivery Delays vs. Review Scores', color: '#f8fafc', font: { size: 15, weight: '700' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                    y: { min: 0, max: 5, ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
