@@ -115,10 +115,13 @@ Bash
 python run_system.py
 3. Execution Console Output Log
 Plaintext
-=== Step 1: Executing Olist Pipeline Training & Artifact Generation ===
+=== Step 1: Executing Olist Pipeline Training & Artifact Generation 
 ======================================================================
+
 OLIST MARKETPLACE: MODULAR ENTERPRISE PIPELINE EXECUTION
+
 ======================================================================
+
 -> Order Status Distribution (Survivorship Audit):
 order_status
 delivered       92.093333
