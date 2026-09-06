@@ -28,42 +28,57 @@
 | **Testing & Quality Assurance** | Pytest (Strict data leakage verification) |
 | **Data Science Stack** | Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn |
 
---
+---
 
 ## 📂 Project Directory Structure
 
 ``text
-├── .github/workflows/
-│   ├── ci.yml                 # Automated testing and leakage verification CI pipeline
-│   └── deploy.yml             # Container build and registry deployment workflow
+
+├── .github/
+
+│   └── workflows/
+
+│       ├── ci.yml                 # Automated testing and leakage verification CI pipeline
+
+│       └── deploy.yml             # Container build and registry deployment workflow
+
 ├── configs/
-│   └── model_params.yaml      # Hyperparameters and threshold configurations
+
+│   └── model_params.yaml          # Hyperparameters and threshold configurations
+
 ├── dags/
-│   └── olist_pipeline_dag.py  # Airflow orchestration DAG for batch pipelines
+
+│   └── olist_pipeline_dag.py      # Airflow orchestration DAG for batch pipelines
+
 ├── data/
-│   ├── processed/             # Serialized model artifacts, features, and executive charts
-│   └── raw/                   # Olist source CSV datasets
+
+│   ├── processed/                 # Serialized model artifacts, features, and executive charts
+
+│   └── raw/                       # Olist source CSV datasets
+
 ├── k8s/
-│   └── deployment.yaml        # Production Kubernetes cluster deployment manifests
+
+│   └── deployment.yaml            # Production Kubernetes cluster deployment manifests
+
 ├── monitoring/
-│   └── drift_monitor.py       # Data and concept drift detection system
+
+│   └── drift_monitor.py           # Data and concept drift detection system
 ├── src/
 │   ├── __init__.py
-│   ├── celery_app.py          # Asynchronous task worker configurations
-│   ├── features.py            # Leakage-proof feature engineering pipeline
-│   ├── ingestion.py           # Data loading, cleaning, and survivorship audits
-│   ├── modeling.py            # Asymmetric cost-sensitive model training
-│   ├── optimization.py        # CapEx financial optimization and hub placement
-│   └── visualization.py       # Executive chart generation engine
+│   ├── celery_app.py              # Asynchronous task worker configurations
+│   ├── features.py                # Leakage-proof feature engineering pipeline
+│   ├── ingestion.py               # Data loading, cleaning, and survivorship audits
+│   ├── modeling.py                # Asymmetric cost-sensitive model training
+│   ├── optimization.py            # CapEx financial optimization and hub placement
+│   └── visualization.py           # Executive chart generation engine
 ├── tests/
-│   └── test_leakage.py        # Pytest suite for strict data leakage checks
-├── app.py                     # FastAPI real-time inference server
-├── main.py                    # End-to-end local MLOps execution pipeline
-├── run_system.py              # Single-prompt execution wrapper for the full system
-├── Dockerfile                 # Production container build instructions
-├── docker-compose.yml         # Multi-container orchestration setup
-└── requirements.txt           # Project dependencies
-
+│   └── test_leakage.py            # Pytest suite for strict data leakage checks
+├── app.py                         # FastAPI real-time inference server
+├── main.py                        # End-to-end local MLOps execution pipeline
+├── run_system.py                  # Single-prompt execution wrapper for the full system
+├── Dockerfile                     # Production container build instructions
+├── docker-compose.yml             # Multi-container orchestration setup
+└── requirements.txt               # Project dependencies
 ⚡ Key Features & Engineering Highlights
 🔒 Leakage-Proof Feature Engineering (src/features.py): Built with strict temporal separation to prevent target leakage during feature generation, validated automatically via tests/test_leakage.py.
 
@@ -73,26 +88,65 @@
 
 🔄 Automated CI/CD Pipelines: Validates code health, runs automated Pytest leakage tests, and pushes container artifacts to registries on every merge to main.
 
-### Quick Start & Local Execution
+🚀 Quick Start & Local Execution
 1. Install Dependencies
-   # pip install -r requirements.txt
-
+Bash
+pip install -r requirements.txt
 2. Run the Entire System via Single-Prompt Wrapper
-To execute the complete end-to-end pipeline (data ingestion, feature engineering, asymmetric model training, artifact serialization, chart generation) and instantly spin up the FastAPI server, run:
-  # python run_system.py
+Execute the complete end-to-end pipeline and instantly spin up the FastAPI server:
 
-3. Access Live API & Documentation
-Once the server is active, navigate to your browser to view the interactive Swagger documentation:
+Bash
+python run_system.py
+3. Execution Console Output Log
+Plaintext
+=== Step 1: Executing Olist Pipeline Training & Artifact Generation ===
+======================================================================
+OLIST MARKETPLACE: MODULAR ENTERPRISE PIPELINE EXECUTION
+======================================================================
+-> Order Status Distribution (Survivorship Audit):
+order_status
+delivered       92.093333
+shipped          2.960000
+unavailable      2.073333
+canceled         1.793333
+processing       1.080000
+Name: proportion, dtype: float64
+-> Optimal Asymmetric Decision Threshold: 0.2867
 
-  API Root: http://127.0.0.1:8000
+Classification Report:
+              precision    recall  f1-score   support
 
-  Swagger UI: http://127.0.0.1:8000/docs
+           0       0.87      0.98      0.92      3456
+           1       0.23      0.03      0.06       544
 
-### Docker & Container Deployment
+    accuracy                           0.85      4000
+   macro avg       0.55      0.51      0.49      4000
+weighted avg       0.78      0.85      0.80      4000
+
+-> Model artifacts successfully saved to 'data/processed/'
+-> CapEx Financial Validation: Total Hub Setup Cost = R$ 4,500,000.00 | Projected Annual GMV Protected = R$ 205,954.45
+
+[Stage 4] Rendering & saving complete executive visualization suite (4 core charts)...
+-> All executive charts successfully generated and saved to 'data/processed/'
+
+======================================================================
+MODULAR REPOSITORY EXECUTION & VISUALIZATION COMPLETED SUCCESSFULLY.
+======================================================================
+
+=== Step 2: Launching FastAPI Real-Time Inference Server ===
+INFO:     Will watch for changes in these directories: ['C:\\Users\\Ayyappan\\Desktop\\1']
+INFO:     Uvicorn running on [http://127.0.0.1:8000](http://127.0.0.1:8000) (Press CTRL+C to quit)
+INFO:     Started reloader process [3276] using WatchFiles
+INFO:     Started server process [14364]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+🌐 Access Live API & Documentation
+API Root Endpoint: http://127.0.0.1:8000
+
+Interactive Swagger UI: http://127.0.0.1:8000/docs
+
+🐳 Docker & Container Deployment
 To run the complete platform services via Docker Compose:
- # docker-compose up --build
 
-### Run the output
-#  python run_system.py  
-
-
+Bash
+docker-compose up --build
